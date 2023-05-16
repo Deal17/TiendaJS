@@ -1,0 +1,321 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.logo-left {
+    display: flex;
+    justify-content: space-between;
+}
+
+body {
+
+    background-color: rgba(146, 237, 146, 0.866)  !important;
+    
+}
+
+nav {
+    width: 100%;
+    height: 90px;
+    margin: 0 auto;
+    background-color: #25375e;
+    display: flex;
+    justify-content: space-between;
+   }
+
+   .logo {
+    width: 180px;
+    height: 180px;
+    margin-top: 15px;
+    padding: 5px;
+    margin-left: 15px;
+    border-radius: 50%;
+   }
+
+   .nombre-de-empresa {
+    font-family: 'Titillium Web', sans-serif;
+    color: rgb(186, 108, 5);
+    text-align: center;
+    padding: 25px;}
+
+   .nombre-de-empresa {
+    display: flex;
+    justify-content: space-between;
+   }
+
+   nav ul {
+     list-style-type: none;
+     display: flex;
+     align-items: center;
+     padding: 10px;
+   }
+   nav ul a {
+     color: bisque;
+     text-decoration: none;
+     padding: 0.8rem;
+   }
+   nav .menu .item {
+    display: inline-block;
+    position: relative;
+    font-size: 1rem;
+    text-align: center;
+   }
+   .menu {
+    height: 100%;
+   }
+    .menu-right {
+    margin-right: 40px;
+   }
+
+    li a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   }
+
+  nav .menu .submenu {
+    position: absolute;
+    display: none;
+  }
+    nav .submenu .sub_i {
+        font-display: block;
+        font-size: 0.8rem;
+        padding: auto;
+}
+nav .menu .item a{
+    color: bisque;
+    text-decoration: none;
+    font-weight: bolder;
+    display: inline-block;
+    padding: 20px;
+}
+
+nav .menu .item:hover .submenu {
+    display: block;
+}
+nav .menu .item:hover .submenu a{
+    color: white;
+}
+nav .menu .item:hover .submenu .sub_i:hover a{
+    color: gold;
+    background-color: rgb(49, 73, 97);
+}
+nav .menu .item:hover a{
+    background-color: #25375e;
+    color: gold;
+    width: 100%;
+}
+.busqueda {
+  margin: 0 auto;
+  width: 300px;    
+  height: 55px;    
+  padding: 30px;
+}  
+.carrito {
+color: antiquewhite;
+}
+ 
+.row {
+    width: 90%  !important;
+    margin: 30px auto  !important;
+}
+.title-galeria {
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 2rem;
+    color: rgb(186, 108, 5);
+    text-align: center;
+    padding: 25px;
+}
+
+.sect2 {
+    text-align: center;
+    margin-top: 40px; }
+  
+  h1 {
+    color: black;
+    background-color: transparent;
+    font-weight: bold;
+    -webkit-text-stroke: #fff;
+    text-shadow: 1px 0px 0px white, 0px 1px 0px white, -1px 0px 0px white, 0px -1px 0px white; }
+  
+  h4, h5 {
+    font-size: 1rem; }
+  
+  .container-items {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 90%;
+    padding-bottom: 30px;
+    margin: 30px auto; }
+  
+  .item {
+    border-radius: 10px; }
+  
+  .item:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); }
+  
+  .item img {
+    width: 80%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+    transition: all .5s; }
+  
+  .item figure {
+    overflow: hidden; }
+  
+  .item:hover img {
+    transform: scale(1.2); }
+  
+  .info-product {
+    padding: 15px 30px;
+    line-height: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; }
+  
+  .price {
+    font-size: 18px;
+    font-weight: 900; }
+  
+  .info-product button {
+    border: none;
+    background: none;
+    background-color: #000;
+    border-radius: 12px;
+    color: #ffd700;
+    padding: 15px 10px;
+    cursor: pointer; }
+  
+  .slider-frame {
+    width: 500px;
+    height: auto;
+    margin: 50px auto 0;
+    overflow: hidden; }
+  
+  .slider-frame ul {
+    display: flex;
+    padding: 0;
+    width: 400%;
+    animation: slide 15s infinite alternate ease-in-out; }
+  
+  .slider-frame li {
+    width: 100%;
+    list-style: none;
+    border-radius: 2%; }
+  
+  .slider-frame .img-slidebar {
+    width: 100%;
+    border-radius: 2%; }
+  
+  @keyframes slide {
+    0% {
+      margin-left: 0; }
+    20% {
+      margin-left: 0; }
+    25% {
+      margin-left: -100%; }
+    45% {
+      margin-left: -100%; }
+    50% {
+      margin-left: -200%; }
+    70% {
+      margin-left: -200%; }
+    75% {
+      margin-left: -300%; }
+    100% {
+      margin-left: -300%; } }
+
+.pie-pagina {
+    height: auto;
+    background-color: #25375e; }
+  
+.pie-pagina .grupo-1 {
+    width: 100%;
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 50px; }
+  
+.pie-pagina .grupo-1 .box figure {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    justify-content: space-between; }
+  
+.pie-pagina .grupo-1 .box figure img {
+    width: 160px;
+    height: 142px;
+    margin-top: 30px;
+    padding: 10px;
+    margin-left: 25px;
+    border-radius: 50%; }
+  
+.pie-pagina .grupo-1 .box figure img:hover {
+    transform: scale(1.1, 1.2); }
+  
+.pie-pagina .grupo-1 .box h2 {
+    padding: 20px;
+    text-align: center;
+    color: #ffd700;
+    margin-bottom: 5px;
+    font-size: 20px; }
+  
+.pie-pagina .grupo-1 .box p {
+    color: #efefef;
+    font-size: 12px;
+    margin-bottom: 5px;
+    text-align: center; }
+  
+.pie-pagina .grupo-1 .red-social {
+    display: flex;
+    justify-content: center; }
+  
+.pie-pagina .grupo-1 .red-social a {
+    display: inline-block;
+    text-decoration: none;
+    width: 45px;
+    height: 45px;
+    line-height: 20px;
+    color: #fff;
+    margin-left: 30px;
+    background-color: #25375e;
+    text-align: center;
+    transition: all 300ms ease; }
+  
+.pie-pagina .grupo-1 .red-social a:hover {
+    color: #f0ed3f; }
+  
+.pie-pagina .grupo-2 {
+    background-color: #25375e;
+    padding: 5px 5px;
+    text-align: center;
+    color: #fff; }
+  
+.pie-pagina .grupo-2 small {
+    font-size: 12px; }
+    .burbuja{
+        border-radius: 50%;
+        background: #fff;
+        opacity: .3;
+    
+        position: absolute;
+        bottom: -150;
+        
+        animation: burbujas 3s linear infinite ;
+    }
+    @media screen and (max-width: 800px) {
+        .pie-pagina .grupo-1 {
+          width: 90%;
+          grid-template-columns: repeat(1, 1fr);
+          grid-gap: 30px;
+          padding: 35px 0px; }
+        .pie-pagina .grupo-1 .box figure {
+          justify-content: center; }
+        .pie-pagina .grupo-1 .box figure img {
+          justify-content: center;
+          margin: 0px; } }
