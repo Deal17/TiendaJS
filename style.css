@@ -142,7 +142,7 @@ color: antiquewhite;
   h4, h5 {
     font-size: 1rem; }
   
-  .container-items {
+  #container-items {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
@@ -188,7 +188,20 @@ color: antiquewhite;
     color: #ffd700;
     padding: 15px 10px;
     cursor: pointer; }
-  
+
+  .stylebutton{
+    border: none;
+    background: none;
+    background-color: #f39e00;
+    border-radius: 12px;
+    color: #000;
+    padding: 15px 10px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin: 20px auto;
+  }
   .slider-frame {
     width: 500px;
     height: auto;

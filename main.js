@@ -1,12 +1,13 @@
 
 class Camiseta { // clase//      
-    constructor (marca, precio, cantidad) { //constructor es funcion que va a definir el valor de los atributos de la clase se establece parametros/
+    constructor (marca, precio, cantidad,urlimage) { //constructor es funcion que va a definir el valor de los atributos de la clase se establece parametros/
         this.marca = marca;   
         this.precio = precio; // this se crea como varible del atributo 
         this.cantidad = cantidad; 
         this.vendido = false;
         this.numventas = 0;
         this.TotalVenta = 0;
+        this.urlimage = urlimage;
     }
     vender (cantidad){ // funcion  de la clase//
         this.vendido = true;
@@ -16,17 +17,67 @@ class Camiseta { // clase//
     }
      
 }
-const nike = new Camiseta ("nike", 50000, 9);
-const markit  = new Camiseta ("markit", 55000, 9);
-const quicksilver = new Camiseta ("quicksilver", 48000, 9);
-const dnb = new Camiseta ("dnb", 50000, 9);
-const calavera = new Camiseta ("calavera", 46000, 9);
-const LV = new Camiseta ("LV", 46000, 9); // const nombreobjeto = new nombreclase (argumentos de los parametros de constructor de la clase);
+const nike = new Camiseta ("nike", 50000, 9,"./img/azul.jpg");
+const markit  = new Camiseta ("markit", 55000, 9,"./img/markit.jpg");
+const quicksilver = new Camiseta ("quicksilver", 48000, 9,"./img/quicksilver.jpg");
+const dnb = new Camiseta ("dnb", 50000, 9,"./img/dnb.jpg");
+const calavera = new Camiseta ("calavera", 46000, 9,"./img/calavera.jpg");
+const LV = new Camiseta ("LV", 46000, 9,"./img/blanca.jpg"); // const nombreobjeto = new nombreclase (argumentos de los parametros de constructor de la clase);
 
 
 const arrcamisetas = [nike,markit,quicksilver,dnb,calavera,LV];
 
-// barra busqueda
+  // Obtener el contenedor donde se crearán las etiquetas figure
+  const container = document.getElementById('container-items');
+
+  // Generar las etiquetas product cards de camisetas
+    arrcamisetas.forEach(camiseta => {
+
+    // Crear un nuevo elemento figure
+    const divietem = document.createElement('div');
+    divietem.classList.add("item");
+
+        // Crear un nuevo elemento figure
+        const figure = document.createElement('figure');
+        // Crear un elemento img
+        const img = document.createElement('img');
+        img.src = camiseta.urlimage;
+        // Agregar la imagen a la etiqueta figure
+        figure.appendChild(img);
+
+        //div product card
+        const productcard = document.createElement('div');
+        productcard.classList.add("info-product");
+
+        //Nombre
+         const Nombre = document.createElement('h2');
+         Nombre.innerHTML=camiseta.marca;
+
+        //precio
+        const precio = document.createElement('p');
+        precio.innerHTML=camiseta.precio;
+
+        //cotizar
+        const buttonCotizar = document.createElement('button');
+        buttonCotizar.textContent="Cotizar Camiseta";
+        buttonCotizar.setAttribute('onClick','BienvenidoaBaambaam()');
+
+        
+        //carrito
+        const buttoncarrito = document.createElement('button');
+        buttoncarrito.textContent="Agregar a carrito";
+        buttoncarrito.setAttribute('onClick','BienvenidoaBaambaam("'+camiseta.cantidad+'")');
+
+        productcard.appendChild(Nombre);
+        productcard.appendChild(precio);
+        productcard.appendChild(buttonCotizar);
+
+    // Agregar la etiqueta figure al contenedor
+    divietem.appendChild(figure);
+    divietem.appendChild(productcard);
+
+    container.appendChild(divietem);
+  });
 
    function BienvenidoaBaambaam() {
     let nombre = prompt ("Hola,¿Cómo te llamas?");
@@ -65,7 +116,6 @@ const arrcamisetas = [nike,markit,quicksilver,dnb,calavera,LV];
             }
             alert("Compra realizada con exito, haz comprado "+ cantidadMarkit +" camisetas de la marca "+markit.marca+" por un total de "+markit.TotalVenta+".");
         break;
-
         case "quicksilver": 
             alert(`El ${respuesta} tiene un valor de ${quicksilver.precio} Pesos`);
             let cantidadQuicksilver = parseInt(prompt(`¿Cuántas camisetas Quicksilver quieres? Desde 4 unidades, 4% dcto. Desde 7 unidades 8% dcto`));
@@ -83,7 +133,6 @@ const arrcamisetas = [nike,markit,quicksilver,dnb,calavera,LV];
             }
             alert("Compra realizada con exito, haz comprado "+ cantidadQuicksilver +" camisetas de la marca "+quicksilver.marca+" por un total de "+quicksilver.TotalVenta+".");
         break;
-
         case "calavera": 
             alert(`El ${respuesta} tiene un valor de ${calavera.precio} Pesos`);
             let cantidadCalavera = parseInt(prompt(`¿Cuántas camisetas Calavera quieres? Desde 4 unidades, 4% dcto. Desde 7 unidades 8% dcto`));
@@ -101,7 +150,6 @@ const arrcamisetas = [nike,markit,quicksilver,dnb,calavera,LV];
             }
             alert("Compra realizada con exito, haz comprado "+ cantidadCalavera +" camisetas de la marca "+calavera.marca+" por un total de "+calavera.TotalVenta+".");
         break;
-
         case "nike": 
             alert(`El ${respuesta} tiene un valor de ${nike.precio} Pesos`);
             let cantidadNike = parseInt(prompt(`¿Cuántas camisetas Nike quieres? Desde 4 unidades, 4% dcto. Desde 7 unidades 8% dcto`));
@@ -119,7 +167,6 @@ const arrcamisetas = [nike,markit,quicksilver,dnb,calavera,LV];
             }
             alert("Compra realizada con exito, haz comprado "+ cantidadNike +" camisetas de la marca "+nike.marca+" por un total de "+nike.TotalVenta+".");
         break;
-
         case "lv": 
             alert(`El ${respuesta} tiene un valor de ${LV.precio} Pesos`);
             let cantidadLv = parseInt(prompt(`¿Cuántas camisetas Lv quieres? Desde 4 unidades, 4% dcto. Desde 7 unidades 8% dcto`));
@@ -202,3 +249,58 @@ fin();
        resultsContainer.appendChild(resultElement);
      });
    });
+
+   // Función para guardar el carrito de compras en el local storage
+function guardarCarrito(carrito) {
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+  }
+  
+  // Función para obtener el carrito de compras desde el local storage
+  function obtenerCarrito() {
+    const carritoGuardado = localStorage.getItem('carrito');
+    if (carritoGuardado) {
+      return JSON.parse(carritoGuardado);
+    }
+    return [];
+  }
+  // Función para agregar una camiseta al carrito de compras
+  function agregarAlCarrito(camiseta) {
+    const carrito = obtenerCarrito();
+    carrito.push(camiseta);
+    guardarCarrito(carrito);
+  }
+  
+  // Función para obtener todas las camisetas del carrito de compras
+  function obtenerCamisetasDelCarrito() {
+    return obtenerCarrito();
+  }
+  
+  // Función para vaciar el carrito de compras
+  function vaciarCarrito() {
+    guardarCarrito([]);
+  }
+  
+  function carrito(){
+    var resp = prompt("Ingrese proceso de carrito, Agregar, Consultar, Vaciar");
+    resp.toLowerCase();
+    while ( resp != "fin") {
+      switch (resp.toLowerCase()){
+         case "agregar": 
+         var respmarca = prompt("Escribe la marca de tu camiseta que deseas adicionar al carrito: Markit, Quicksilver, Calavera, Nike, Lv y dnb");
+         var camiseta = arrcamisetas.find(el => el.marca =respmarca);
+         agregarAlCarrito(camiseta);
+         break;
+         case "consultar": 
+            var listacamisetas = JSON.stringify(obtenerCamisetasDelCarrito());        
+            alert(listacamisetas);
+         break;
+         case "vaciar": 
+            vaciarCarrito();
+         break;
+         default:
+             alert (`El ${resp} no esta disponible`);
+             break;
+         }
+         resp = prompt("Ingrese proceso de carrito, Agregar, Consultar, Vaciar o FIN para salir");  
+   }
+  }
