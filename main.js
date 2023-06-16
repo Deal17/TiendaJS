@@ -79,7 +79,7 @@ const arrcamisetas = [nike,markit,quicksilver,dnb,calavera,LV];
     container.appendChild(divietem);
   });
 
-   function BienvenidoaBaambaam() {
+   async function BienvenidoaBaambaam() {
     let nombre = prompt ("Hola,¿Cómo te llamas?");
     let mensaje = `Bienvenido/a ${nombre} a BaamBaam, estampados con la mejor durabilidad`;
     alert(mensaje);
@@ -114,7 +114,15 @@ const arrcamisetas = [nike,markit,quicksilver,dnb,calavera,LV];
             if(confirmarcompramarkit ="si"){
                 markit.vender(cantidadMarkit);
             }
-            alert("Compra realizada con exito, haz comprado "+ cantidadMarkit +" camisetas de la marca "+markit.marca+" por un total de "+markit.TotalVenta+".");
+            await Swal.fire({
+                icon: 'success',
+                title: '¡Éxito!',
+                text: 'Compra realizada con éxito, haz comprado ' + cantidadMarkit + ' camisetas de la marca ' + markit.marca + ' por un total de ' + markit.TotalVenta + '.',
+              });
+              
+              Swal.close();
+              respuesta = prompt("Cotiza el valor unitario de cada camiseta: Markit, Quicksilver, calavera. Ingresa FIN para salir");
+
         break;
         case "quicksilver": 
             alert(`El ${respuesta} tiene un valor de ${quicksilver.precio} Pesos`);
@@ -131,7 +139,16 @@ const arrcamisetas = [nike,markit,quicksilver,dnb,calavera,LV];
             if(confirmarcompraquicksilver="si"){
                 quicksilver.vender(cantidadQuicksilver);
             }
-            alert("Compra realizada con exito, haz comprado "+ cantidadQuicksilver +" camisetas de la marca "+quicksilver.marca+" por un total de "+quicksilver.TotalVenta+".");
+            await Swal.fire({
+                icon: 'success',
+                title: '¡Éxito!',
+                text: 'Compra realizada con éxito, haz comprado ' + cantidadQuicksilver + ' camisetas de la marca ' + quicksilver.marca + ' por un total de ' + quicksilver.TotalVenta + '.',
+              });
+              
+              Swal.close();
+              respuesta = prompt("Cotiza el valor unitario de cada camiseta: Markit, Quicksilver, calavera. Ingresa FIN para salir");
+
+
         break;
         case "calavera": 
             alert(`El ${respuesta} tiene un valor de ${calavera.precio} Pesos`);
@@ -148,7 +165,14 @@ const arrcamisetas = [nike,markit,quicksilver,dnb,calavera,LV];
             if(confirmarcompracalavera="si"){
                 calavera.vender(cantidadCalavera);
             }
-            alert("Compra realizada con exito, haz comprado "+ cantidadCalavera +" camisetas de la marca "+calavera.marca+" por un total de "+calavera.TotalVenta+".");
+            await Swal.fire({
+                icon: 'success',
+                title: '¡Éxito!',
+                text: 'Compra realizada con éxito, haz comprado ' + cantidadCalavera + ' camisetas de la marca ' + calavera.marca + ' por un total de ' + calavera.TotalVenta + '.',
+              });
+              
+              Swal.close();
+              respuesta = prompt("Cotiza el valor unitario de cada camiseta: Markit, Quicksilver, calavera. Ingresa FIN para salir");
         break;
         case "nike": 
             alert(`El ${respuesta} tiene un valor de ${nike.precio} Pesos`);
@@ -165,7 +189,15 @@ const arrcamisetas = [nike,markit,quicksilver,dnb,calavera,LV];
             if(confirmarcompranike="si"){
                 nike.vender(cantidadNike);
             }
-            alert("Compra realizada con exito, haz comprado "+ cantidadNike +" camisetas de la marca "+nike.marca+" por un total de "+nike.TotalVenta+".");
+            await Swal.fire({
+                icon: 'success',
+                title: '¡Éxito!',
+                text: 'Compra realizada con éxito, haz comprado ' + cantidadNike + ' camisetas de la marca ' + nike.marca + ' por un total de ' + nike.TotalVenta + '.',
+              });
+              
+              Swal.close();
+              respuesta = prompt("Cotiza el valor unitario de cada camiseta: Markit, Quicksilver, calavera. Ingresa FIN para salir");
+
         break;
         case "lv": 
             alert(`El ${respuesta} tiene un valor de ${LV.precio} Pesos`);
@@ -182,7 +214,14 @@ const arrcamisetas = [nike,markit,quicksilver,dnb,calavera,LV];
             if(confirmarcompralv="si"){
                 LV.vender(cantidadLv);
             }
-            alert("Compra realizada con exito, haz comprado "+ cantidadLv +" camisetas de la marca "+LV.marca+" por un total de "+LV.TotalVenta+".");
+            await Swal.fire({
+                icon: 'success',
+                title: '¡Éxito!',
+                text: 'Compra realizada con éxito, haz comprado ' + cantidadLv + ' camisetas de la marca ' + LV.marca + ' por un total de ' + LV.TotalVenta + '.',
+              });
+              
+              Swal.close();
+              respuesta = prompt("Cotiza el valor unitario de cada camiseta: Markit, Quicksilver, calavera. Ingresa FIN para salir");
         break;
         case "dnb": 
             alert(`El ${respuesta} tiene un valor de ${dnb.precio} Pesos`);
@@ -199,29 +238,43 @@ const arrcamisetas = [nike,markit,quicksilver,dnb,calavera,LV];
             if(confirmarcompradnb="si"){
                 dnb.vender(cantidaddnb);
             }
-            alert("Compra realizada con exito, haz comprado "+ cantidaddnb +" camisetas de la marca "+dnb.marca+" por un total de "+dnb.TotalVenta+".");
+            await Swal.fire({
+                icon: 'success',
+                title: '¡Éxito!',
+                text: 'Compra realizada con éxito, haz comprado ' + cantidaddnb + ' camisetas de la marca ' + dnb.marca + ' por un total de ' + dnb.TotalVenta + '.',
+              });
+              
+              Swal.close();
+              respuesta = prompt("Cotiza el valor unitario de cada camiseta: Markit, Quicksilver, calavera. Ingresa FIN para salir");
+              
         break;
 
         default:
             alert (`El ${respuesta} no esta disponible`);
+            respuesta = prompt("Cotiza el valor unitario de cada camiseta: Markit, Quicksilver, calavera. Ingresa FIN para salir");
             break;
         }
-        respuesta = prompt("Cotiza el valor unitario de cada camiseta: Markit, Quicksilver, calavera. ingresa FIN para salir");  
   }
-
-  function final(){
-
-    let despedida = (prompt("Por ultimo,¿Quieres recibir información?; "));
-        if( despedida.toLocaleLowerCase() =="si"){
-            alert(`Ya que tu respuesta es ${despedida}, te llegara un correo. vuelve pronto, gracia`);
-        }else if(despedida.toLocaleLowerCase() == "no"){
-            alert(`Ya que tu respuesta es ${despedida}, no llegara un correo.vuelve pronto, gracias`);
-        }else{
-            alert("respuesta mal ingresada")
-        }
-        }
-fin();
+  async function final() {
+    let despedida = await Swal.fire({
+      title: "Por último, ¿Quieres recibir información?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Sí",
+      cancelButtonText: "No",
+    });
+  
+    if (despedida.isConfirmed) {
+      await Swal.fire("Éxito", "Ya que tu respuesta es sí, te llegará un correo. Vuelve pronto, gracias.", "success");
+    } else if (despedida.isDismissed) {
+      await Swal.fire("Éxito", "Ya que tu respuesta es no, no llegará un correo. Vuelve pronto, gracias.", "success");
+    }
+  }
+  
+  final();
+ 
    }
+
    const searchInput = document.getElementById('searchInput');
    const searchButton = document.getElementById('searchButton');
    const resultsContainer = document.getElementById('resultsContainer');
@@ -304,3 +357,27 @@ function guardarCarrito(carrito) {
          resp = prompt("Ingrese proceso de carrito, Agregar, Consultar, Vaciar o FIN para salir");  
    }
   }
+
+  async function fetchLogo(brandName) {
+    try {
+      const response = await fetch(`https://logo.clearbit.com/${brandName.toLowerCase()}.com`);
+      if (response.ok) {
+        const logoUrl = response.url;
+        const logoImg = document.createElement('img');
+        logoImg.src = logoUrl;
+        logoImg.alt = `${brandName} Logo`;
+        logoImg.classList.add("iamgenlogoapi");
+        document.getElementById('logo-container').appendChild(logoImg);
+      } else {
+        console.log(`No se encontró el logo de ${brandName}`);
+      }
+    } catch (error) {
+      console.log('Error al obtener el logo:', error);
+    }
+  }
+
+  document.getElementById('search-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+    const brandName = document.getElementById('brand-name').value;
+    fetchLogo(brandName);
+  });

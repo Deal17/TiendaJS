@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;400&family=Titillium+Web:wght@200;400;600&display=swap" rel="stylesheet">
@@ -19,6 +19,7 @@
 </head>
 
 <body>
+
     <header>
 		<nav>
 			<div class="logo-left" id="top">
@@ -52,6 +53,18 @@
             Carrito de compras
            </button>
        </div>
+	   <section>
+		<h2 class="title-galeria" >Búsqueda de Logos de Camisetas</h2>
+		<h3 class="alinea"> Ejem: Ktm, Ducati, Kawasaki, Honda etc.<h/h3>
+		<div class="buscarlogo">
+			<form id="search-form">
+				<input type="text" class="campobuscarlogo" id="brand-name" placeholder="Ingrese el nombre de la marca">
+				<button type="submit" class="buttonbuscarlogo">Buscar</button>
+			  </form>
+			  
+		</div>
+		<div id="logo-container"></div>
+	   </section>
      </main>
      <footer class="pie-pagina">
 		<div class="grupo-1">
@@ -81,8 +94,9 @@
 		<div class="grupo-2">
 			<small>&copy;Copyright © 2023<b> BaamBaam⚡</b> - Todos los Derechos Reservados.</small>
 		</div>
-   </footer>
 
+   </footer>
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
    <script src="./main.js"></script>
 </body>
 </html>
