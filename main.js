@@ -1,383 +1,341 @@
+const arrcamisetas = [
+  {
+      titulo: "Blanca",
+      imagenSrc: "./img/blanca.jpg",
+      precio: "$50.000"
+  },
+  {
+    titulo: "azul",
+    imagenSrc: "./img/azul.jpg",
+    precio: "$60.000"
+  },
+  {
+    titulo: "quicksilver",
+    imagenSrc: "./img/quicksilver.jpg",
+    precio: "$55.000"
+  },
+  {
+    titulo: "dnb",
+    imagenSrc: "./img/dnb.jpg",
+    precio: "$65.000"
+  },
+  {
+    titulo: "markit",
+    imagenSrc: "./img/markit.jpg",
+    precio: "$55.000"
+  },
+    {
+      titulo: "calavera",
+      imagenSrc: "./img/calavera.jpg",
+      precio: "$55.000"
+    },
 
-class Camiseta { // clase//      
-    constructor (marca, precio, cantidad,urlimage) { //constructor es funcion que va a definir el valor de los atributos de la clase se establece parametros/
-        this.marca = marca;   
-        this.precio = precio; // this se crea como varible del atributo 
-        this.cantidad = cantidad; 
-        this.vendido = false;
-        this.numventas = 0;
-        this.TotalVenta = 0;
-        this.urlimage = urlimage;
-    }
-    vender (cantidad){ // funcion  de la clase//
-        this.vendido = true;
-        this.numventas += 1; // operaciones, modificaciones de los valores de los atributos de la clase//
-        this.cantidad = this.cantidad-cantidad;
-        this.TotalVenta = cantidad*this.precio ;  
-    }
-     
+  
+];
+
+
+// Función para mostrar las camisetas en el contenedor
+function mostrarCamisetas() {
+  const contenedorItems = document.querySelector('.contenedor-items');
+
+  arrcamisetas.forEach(camiseta => {
+      const item = document.createElement('div');
+      item.classList.add('item');
+
+      const itemContenido = `
+          <span class="titulo-item">${camiseta.titulo}</span>
+          <img src="${camiseta.imagenSrc}" alt="" class="img-item">
+          <span class="precio-item">${camiseta.precio}</span>
+          <button class="boton-item">Agregar al Carrito</button>
+      `;
+
+      item.innerHTML = itemContenido;
+      contenedorItems.appendChild(item);
+
+      // Agregar evento click al botón "Agregar al Carrito"
+      const botonAgregar = item.querySelector('.boton-item');
+      botonAgregar.addEventListener('click', () => agregarAlCarritoClicked(camiseta));
+  });
 }
-const nike = new Camiseta ("nike", 50000, 9,"./img/azul.jpg");
-const markit  = new Camiseta ("markit", 55000, 9,"./img/markit.jpg");
-const quicksilver = new Camiseta ("quicksilver", 48000, 9,"./img/quicksilver.jpg");
-const dnb = new Camiseta ("dnb", 50000, 9,"./img/dnb.jpg");
-const calavera = new Camiseta ("calavera", 46000, 9,"./img/calavera.jpg");
-const LV = new Camiseta ("LV", 46000, 9,"./img/blanca.jpg"); // const nombreobjeto = new nombreclase (argumentos de los parametros de constructor de la clase);
+//Variable que mantiene el estado visible del carrito
+var carritoVisible = false;
 
+//Espermos que todos los elementos de la pàgina cargen para ejecutar el script
+if(document.readyState == 'loading'){
+  document.addEventListener('DOMContentLoaded', ready)
+}else{
+  ready();
+}
 
-const arrcamisetas = [nike,markit,quicksilver,dnb,calavera,LV];
+function ready(){
+  cargarCarritoDesdeLocalStorage();
+  mostrarCamisetas();
+  //Agregremos funcionalidad a los botones eliminar del carrito
+  var botonesEliminarItem = document.getElementsByClassName('btn-eliminar');
+  for(var i=0;i<botonesEliminarItem.length; i++){
+      var button = botonesEliminarItem[i];
+      button.addEventListener('click',eliminarItemCarrito);
+  }
 
-  // Obtener el contenedor donde se crearán las etiquetas figure
-  const container = document.getElementById('container-items');
+  //Agrego funcionalidad al boton sumar cantidad
+  var botonesSumarCantidad = document.getElementsByClassName('sumar-cantidad');
+  for(var i=0;i<botonesSumarCantidad.length; i++){
+      var button = botonesSumarCantidad[i];
+      button.addEventListener('click',sumarCantidad);
+  }
 
-  // Generar las etiquetas product cards de camisetas
-    arrcamisetas.forEach(camiseta => {
+   //Agrego funcionalidad al buton restar cantidad
+  var botonesRestarCantidad = document.getElementsByClassName('restar-cantidad');
+  for(var i=0;i<botonesRestarCantidad.length; i++){
+      var button = botonesRestarCantidad[i];
+      button.addEventListener('click',restarCantidad);
+  }
 
-    // Crear un nuevo elemento figure
-    const divietem = document.createElement('div');
-    divietem.classList.add("item");
+  //Agregamos funcionalidad al boton Agregar al carrito
+  var botonesAgregarAlCarrito = document.getElementsByClassName('boton-item');
+  for(var i=0; i<botonesAgregarAlCarrito.length;i++){
+      var button = botonesAgregarAlCarrito[i];
+      button.addEventListener('click', agregarAlCarritoClicked);
+  }
 
-        // Crear un nuevo elemento figure
-        const figure = document.createElement('figure');
-        // Crear un elemento img
-        const img = document.createElement('img');
-        img.src = camiseta.urlimage;
-        // Agregar la imagen a la etiqueta figure
-        figure.appendChild(img);
+  //Agregamos funcionalidad al botón comprar
+  document.getElementsByClassName('btn-pagar')[0].addEventListener('click',pagarClicked)
+}
+function cargarCarritoDesdeLocalStorage() {
+  var carritoItems = localStorage.getItem('carritoItems');
+  if (carritoItems) {
+      // Si hay elementos en el Local Storage, los cargamos en el carrito
+      carritoItems = JSON.parse(carritoItems);
+      carritoItems.forEach(item => {
+          agregarItemAlCarrito(item.titulo, item.precio, item.imagenSrc);
+      });
+  }
+}
 
-        //div product card
-        const productcard = document.createElement('div');
-        productcard.classList.add("info-product");
+// Función para guardar los datos del carrito en el Local Storage
+function guardarCarritoEnLocalStorage() {
+  var carritoItems = document.getElementsByClassName('carrito-items')[0].children;
+  var carritoData = [];
 
-        //Nombre
-         const Nombre = document.createElement('h2');
-         Nombre.innerHTML=camiseta.marca;
+  for (var i = 0; i < carritoItems.length; i++) {
+      var item = carritoItems[i];
+      var titulo = item.getElementsByClassName('carrito-item-titulo')[0].innerText;
+      var precio = item.getElementsByClassName('carrito-item-precio')[0].innerText;
+      var imagenSrc = item.getElementsByTagName('img')[0].src;
 
-        //precio
-        const precio = document.createElement('p');
-        precio.innerHTML=camiseta.precio;
+      carritoData.push({ titulo, precio, imagenSrc });
+  }
 
-        //cotizar
-        const buttonCotizar = document.createElement('button');
-        buttonCotizar.textContent="Cotizar Camiseta";
-        buttonCotizar.setAttribute('onClick','BienvenidoaBaambaam()');
+  localStorage.setItem('carritoItems', JSON.stringify(carritoData));
+}
 
-        
-        //carrito
-        const buttoncarrito = document.createElement('button');
-        buttoncarrito.textContent="Agregar a carrito";
-        buttoncarrito.setAttribute('onClick','BienvenidoaBaambaam("'+camiseta.cantidad+'")');
+//Eliminamos todos los elementos del carrito y lo ocultamos
+async function pagarClicked(){
+  var carritoItems = document.getElementsByClassName('carrito-items')[0];
+  if (carritoItems.childElementCount == 0) {
+      await Swal.fire({
+          icon: 'warning',
+          title: 'Fallido!',
+          text: 'El carrito está vacío. No hay artículos para pagar.',
+      });
+      return;
+  }
+  await Swal.fire({
+      icon: 'success',
+      title: '¡Éxito!',
+      text: 'Compra realizada con éxito.',
+  });
+  await final();
+  while (carritoItems.hasChildNodes()){
+      carritoItems.removeChild(carritoItems.firstChild)
+  }
+  actualizarTotalCarrito();
+  ocultarCarrito();
+  guardarCarritoEnLocalStorage();
+}
+//Funciòn que controla el boton clickeado de agregar al carrito
+function agregarAlCarritoClicked(event){
+  var button = event.target;
+  var item = button.parentElement;
+  var titulo = item.getElementsByClassName('titulo-item')[0].innerText;
+  var precio = item.getElementsByClassName('precio-item')[0].innerText;
+  var imagenSrc = item.getElementsByClassName('img-item')[0].src;
+  console.log(imagenSrc);
 
-        productcard.appendChild(Nombre);
-        productcard.appendChild(precio);
-        productcard.appendChild(buttonCotizar);
+  agregarItemAlCarrito(titulo, precio, imagenSrc);
 
-    // Agregar la etiqueta figure al contenedor
-    divietem.appendChild(figure);
-    divietem.appendChild(productcard);
-
-    container.appendChild(divietem);
+  hacerVisibleCarrito();
+}
+async function final() {
+  let despedida = await Swal.fire({
+    title: "Por último, ¿Quieres recibir información de nuevas promociones a tu correo    ?",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonText: "Sí",
+    cancelButtonText: "No",
   });
 
-   async function BienvenidoaBaambaam() {
-    let nombre = prompt ("Hola,¿Cómo te llamas?");
-    let mensaje = `Bienvenido/a ${nombre} a BaamBaam, estampados con la mejor durabilidad`;
-    alert(mensaje);
-    let respuesta = prompt("Escribe el logo o marca de tu camiseta que deseas comprar: Markit, Quicksilver, Calavera, Nike, Lv y dnb");
-
-   const precioMarkit = 55000;
-   const precioQuicksilver = 48000;
-   const precioCalavera = 46000;
-   const precioNike = 50000;
-   const precioLv = 46000;
-   const preciodnb = 50000;
-
-   const descuento4 = x=> x * 0.96;
-   const descuento8 = x=> x * 0.92;
-
-   respuesta.toLowerCase();
-
-   while ( respuesta != "fin") {
-     switch (respuesta.toLowerCase()){
-        case "markit": 
-            alert(`El ${respuesta} tiene un valor de ${markit.precio} Pesos`);
-            let cantidadMarkit = parseInt(prompt(`¿Cuántas camisetas Markit quieres? Desde 4 unidades, 4% dcto. Desde 7 unidades 8% dcto`));
-            if(cantidadMarkit <=3){
-                alert(`el valor de camiseta/s ${cantidadMarkit} Markit es de $ ${(cantidadMarkit*markit.precio)} Pesos`);
-            }else if(cantidadMarkit >= 4 && cantidadMarkit <= 8){
-                alert(`El valor de camiseta/s ${cantidadMarkit} Markit es de $ ${cantidadMarkit*(descuento4(markit.precio))} Pesos`);
-            }else if(cantidadMarkit >= 7){
-                alert(`el valor de camiseta/s ${cantidadMarkit} Markit es de $ ${cantidadMarkit*(descuento8(markit.precio))} Pesos`);
-            }
-            let confirmarcompramarkit = prompt("Escribe 'si' , si quieres realizar la compra");
-
-            if(confirmarcompramarkit ="si"){
-                markit.vender(cantidadMarkit);
-            }
-            await Swal.fire({
-                icon: 'success',
-                title: '¡Éxito!',
-                text: 'Compra realizada con éxito, haz comprado ' + cantidadMarkit + ' camisetas de la marca ' + markit.marca + ' por un total de ' + markit.TotalVenta + '.',
-              });
-              
-              Swal.close();
-              respuesta = prompt("Cotiza el valor unitario de cada camiseta: Markit, Quicksilver, calavera. Ingresa FIN para salir");
-
-        break;
-        case "quicksilver": 
-            alert(`El ${respuesta} tiene un valor de ${quicksilver.precio} Pesos`);
-            let cantidadQuicksilver = parseInt(prompt(`¿Cuántas camisetas Quicksilver quieres? Desde 4 unidades, 4% dcto. Desde 7 unidades 8% dcto`));
-            if(cantidadQuicksilver <=3){
-                alert(`el valor de camiseta/s ${cantidadQuicksilver} Quicksilver es de $ ${(cantidadQuicksilver*quicksilver.precio)} Pesos`);
-            }else if(cantidadQuicksilver >= 4 && cantidadQuicksilver <= 8){
-                alert(`El valor de camiseta/s ${cantidadQuicksilver} Quicksilveres de $ ${cantidadQuicksilver*(descuento4(quicksilver.precio))} Pesos`);
-            }else if(cantidadQuicksilver >= 7){
-                alert(`el valor de camiseta/s ${cantidadQuicksilver} Quicksilver es de $ ${cantidadQuicksilver*(descuento8(quicksilver.precio))} Pesos`);
-            }
-            let confirmarcompraquicksilver= prompt("Escribe 'si' , si quieres realizar la compra");
-
-            if(confirmarcompraquicksilver="si"){
-                quicksilver.vender(cantidadQuicksilver);
-            }
-            await Swal.fire({
-                icon: 'success',
-                title: '¡Éxito!',
-                text: 'Compra realizada con éxito, haz comprado ' + cantidadQuicksilver + ' camisetas de la marca ' + quicksilver.marca + ' por un total de ' + quicksilver.TotalVenta + '.',
-              });
-              
-              Swal.close();
-              respuesta = prompt("Cotiza el valor unitario de cada camiseta: Markit, Quicksilver, calavera. Ingresa FIN para salir");
-
-
-        break;
-        case "calavera": 
-            alert(`El ${respuesta} tiene un valor de ${calavera.precio} Pesos`);
-            let cantidadCalavera = parseInt(prompt(`¿Cuántas camisetas Calavera quieres? Desde 4 unidades, 4% dcto. Desde 7 unidades 8% dcto`));
-            if(cantidadCalavera <=3){
-                alert(`el valor de camiseta/s ${cantidadCalavera} Calavera es de $ ${(cantidadCalavera*calavera.precio)} Pesos`);
-            }else if(cantidadCalavera >= 4 && cantidadCalavera <= 8){
-                alert(`El valor de camiseta/s ${cantidadCalavera} Calavera es de $ ${cantidadCalavera*(descuento4(calavera.precio))} Pesos`);
-            }else if(cantidadCalavera >= 7){
-                alert(`el valor de camiseta/s ${cantidadCalavera} Calavera es de $ ${cantidadCalavera*(descuento8(calavera.precio))} Pesos`);
-            }
-            let confirmarcompracalavera = prompt("Escribe 'si' , si quieres realizar la compra");
-
-            if(confirmarcompracalavera="si"){
-                calavera.vender(cantidadCalavera);
-            }
-            await Swal.fire({
-                icon: 'success',
-                title: '¡Éxito!',
-                text: 'Compra realizada con éxito, haz comprado ' + cantidadCalavera + ' camisetas de la marca ' + calavera.marca + ' por un total de ' + calavera.TotalVenta + '.',
-              });
-              
-              Swal.close();
-              respuesta = prompt("Cotiza el valor unitario de cada camiseta: Markit, Quicksilver, calavera. Ingresa FIN para salir");
-        break;
-        case "nike": 
-            alert(`El ${respuesta} tiene un valor de ${nike.precio} Pesos`);
-            let cantidadNike = parseInt(prompt(`¿Cuántas camisetas Nike quieres? Desde 4 unidades, 4% dcto. Desde 7 unidades 8% dcto`));
-            if(cantidadNike <=3){
-                alert(`el valor de camiseta/s ${cantidadNike} Nike es de $ ${(cantidadNike*nike.precio)} Pesos`);
-            }else if(cantidadNike >= 4 && cantidadNike <= 8){
-                alert(`El valor de camiseta/s ${cantidadNike} Nike es de $ ${cantidadNike*(descuento4(nike.precio))} Pesos`);
-            }else if(cantidadNike >= 7){
-                alert(`el valor de camiseta/s ${cantidadNike} Nike es de $ ${cantidadNike*(descuento8(nike.precio))} Pesos`);
-            }
-            let confirmarcompranike = prompt("Escribe 'si' , si quieres realizar la compra");
-
-            if(confirmarcompranike="si"){
-                nike.vender(cantidadNike);
-            }
-            await Swal.fire({
-                icon: 'success',
-                title: '¡Éxito!',
-                text: 'Compra realizada con éxito, haz comprado ' + cantidadNike + ' camisetas de la marca ' + nike.marca + ' por un total de ' + nike.TotalVenta + '.',
-              });
-              
-              Swal.close();
-              respuesta = prompt("Cotiza el valor unitario de cada camiseta: Markit, Quicksilver, calavera. Ingresa FIN para salir");
-
-        break;
-        case "lv": 
-            alert(`El ${respuesta} tiene un valor de ${LV.precio} Pesos`);
-            let cantidadLv = parseInt(prompt(`¿Cuántas camisetas Lv quieres? Desde 4 unidades, 4% dcto. Desde 7 unidades 8% dcto`));
-            if(cantidadLv <=3){
-                alert(`el valor de camiseta/s ${cantidadLv} Lv es de $ ${(cantidadLv*LV.precio)} Pesos`);
-            }else if(cantidadLv >= 4 && cantidadLv <= 8){
-                alert(`El valor de camiseta/s ${cantidadLv} Lv es de $ ${cantidadLv*(descuento4(LV.precio))} Pesos`);
-            }else if(cantidadLv >= 7){
-                alert(`el valor de camiseta/s ${cantidadLv} Lv es de $ ${cantidadLv*(descuento8(LV.precio))} Pesos`);
-            }
-            let confirmarcompralv = prompt("Escribe 'si' , si quieres realizar la compra");
-
-            if(confirmarcompralv="si"){
-                LV.vender(cantidadLv);
-            }
-            await Swal.fire({
-                icon: 'success',
-                title: '¡Éxito!',
-                text: 'Compra realizada con éxito, haz comprado ' + cantidadLv + ' camisetas de la marca ' + LV.marca + ' por un total de ' + LV.TotalVenta + '.',
-              });
-              
-              Swal.close();
-              respuesta = prompt("Cotiza el valor unitario de cada camiseta: Markit, Quicksilver, calavera. Ingresa FIN para salir");
-        break;
-        case "dnb": 
-            alert(`El ${respuesta} tiene un valor de ${dnb.precio} Pesos`);
-            let cantidaddnb = parseInt(prompt(`¿Cuántas camisetas dnb quieres? Desde 4 unidades, 4% dcto. Desde 7 unidades 8% dcto`));
-            if(cantidaddnb <=3){
-                alert(`el valor de camiseta/s ${cantidaddnb} dnb es de $ ${(cantidaddnb*dnb.precio)} Pesos`);
-            }else if(cantidaddnb >= 4 && cantidaddnb <= 8){
-                alert(`El valor de camiseta/s ${cantidaddnb} dnb es de $ ${cantidaddnb*(descuento4(dnb.precio))} Pesos`);
-            }else if(cantidaddnb >= 7){
-                alert(`el valor de camiseta/s ${cantidaddnb} dnb es de $ ${cantidaddnb*(descuento8(dnb.precio))} Pesos`);
-            }
-            let confirmarcompradnb = prompt("Escribe 'si' , si quieres realizar la compra");
-
-            if(confirmarcompradnb="si"){
-                dnb.vender(cantidaddnb);
-            }
-            await Swal.fire({
-                icon: 'success',
-                title: '¡Éxito!',
-                text: 'Compra realizada con éxito, haz comprado ' + cantidaddnb + ' camisetas de la marca ' + dnb.marca + ' por un total de ' + dnb.TotalVenta + '.',
-              });
-              
-              Swal.close();
-              respuesta = prompt("Cotiza el valor unitario de cada camiseta: Markit, Quicksilver, calavera. Ingresa FIN para salir");
-              
-        break;
-
-        default:
-            alert (`El ${respuesta} no esta disponible`);
-            respuesta = prompt("Cotiza el valor unitario de cada camiseta: Markit, Quicksilver, calavera. Ingresa FIN para salir");
-            break;
-        }
+  if (despedida.isConfirmed) {
+    await Swal.fire("Éxito", "Ya que tu respuesta es sí, te llegará un correo. Vuelve pronto, gracias.", "success");
+  } else if (despedida.isDismissed) {
+    await Swal.fire("Éxito", "Ya que tu respuesta es no, no llegará ningún correo. Vuelve pronto, gracias.", "success");
   }
-  async function final() {
-    let despedida = await Swal.fire({
-      title: "Por último, ¿Quieres recibir información?",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonText: "Sí",
-      cancelButtonText: "No",
-    });
-  
-    if (despedida.isConfirmed) {
-      await Swal.fire("Éxito", "Ya que tu respuesta es sí, te llegará un correo. Vuelve pronto, gracias.", "success");
-    } else if (despedida.isDismissed) {
-      await Swal.fire("Éxito", "Ya que tu respuesta es no, no llegará un correo. Vuelve pronto, gracias.", "success");
-    }
-  }
-  
-  final();
- 
-   }
+}
+//Funcion que hace visible el carrito
+function hacerVisibleCarrito(){
+  carritoVisible = true;
+  var carrito = document.getElementsByClassName('carrito')[0];
+  carrito.style.marginRight = '0';
+  carrito.style.opacity = '1';
 
-   const searchInput = document.getElementById('searchInput');
-   const searchButton = document.getElementById('searchButton');
-   const resultsContainer = document.getElementById('resultsContainer');
-   
-   // Agregar un evento de clic al botón de búsqueda
-   searchButton.addEventListener('click', function () {
-     // Obtener el valor de búsqueda ingresado
-     const searchTerm = searchInput.value.toLowerCase();
-   
-     // Limpiar el contenedor de resultados
-     resultsContainer.innerHTML = '';
-   
-     // Realizar la búsqueda en el arreglo de objetos
-     const results = arrcamisetas.filter(function (objeto) {
-       // Comparar el término de búsqueda con los atributos "nombre" y "descripcion"
-       return (
-         objeto.marca.toLowerCase().includes(searchTerm));
-     });
-   
-     // Mostrar los resultados en el contenedor
-     results.forEach(function (resultado) {
-       const resultElement = document.createElement('div');
-       resultElement.classList.add("carrito");
-       resultElement.textContent = `Nombre: ${resultado.marca}, precio: ${resultado.precio}`;
-       resultsContainer.appendChild(resultElement);
-     });
-   });
+  var items =document.getElementsByClassName('contenedor-items')[0];
+  items.style.width = '60%';
+}
 
-   // Función para guardar el carrito de compras en el local storage
-function guardarCarrito(carrito) {
-    localStorage.setItem('carrito', JSON.stringify(carrito));
-  }
-  
-  // Función para obtener el carrito de compras desde el local storage
-  function obtenerCarrito() {
-    const carritoGuardado = localStorage.getItem('carrito');
-    if (carritoGuardado) {
-      return JSON.parse(carritoGuardado);
-    }
-    return [];
-  }
-  // Función para agregar una camiseta al carrito de compras
-  function agregarAlCarrito(camiseta) {
-    const carrito = obtenerCarrito();
-    carrito.push(camiseta);
-    guardarCarrito(carrito);
-  }
-  
-  // Función para obtener todas las camisetas del carrito de compras
-  function obtenerCamisetasDelCarrito() {
-    return obtenerCarrito();
-  }
-  
-  // Función para vaciar el carrito de compras
-  function vaciarCarrito() {
-    guardarCarrito([]);
-  }
-  
-  function carrito(){
-    var resp = prompt("Ingrese proceso de carrito, Agregar, Consultar, Vaciar");
-    resp.toLowerCase();
-    while ( resp != "fin") {
-      switch (resp.toLowerCase()){
-         case "agregar": 
-         var respmarca = prompt("Escribe la marca de tu camiseta que deseas adicionar al carrito: Markit, Quicksilver, Calavera, Nike, Lv y dnb");
-         var camiseta = arrcamisetas.find(el => el.marca =respmarca);
-         agregarAlCarrito(camiseta);
-         break;
-         case "consultar": 
-            var listacamisetas = JSON.stringify(obtenerCamisetasDelCarrito());        
-            alert(listacamisetas);
-         break;
-         case "vaciar": 
-            vaciarCarrito();
-         break;
-         default:
-             alert (`El ${resp} no esta disponible`);
-             break;
-         }
-         resp = prompt("Ingrese proceso de carrito, Agregar, Consultar, Vaciar o FIN para salir");  
-   }
-  }
+//Funciòn que agrega un item al carrito
+async function agregarItemAlCarrito(titulo, precio, imagenSrc){
+  var item = document.createElement('div');
+  item.classList.add = ('item');
+  var itemsCarrito = document.getElementsByClassName('carrito-items')[0];
 
-  async function fetchLogo(brandName) {
-    try {
-      const response = await fetch(`https://logo.clearbit.com/${brandName.toLowerCase()}.com`);
-      if (response.ok) {
-        const logoUrl = response.url;
-        const logoImg = document.createElement('img');
-        logoImg.src = logoUrl;
-        logoImg.alt = `${brandName} Logo`;
-        logoImg.classList.add("iamgenlogoapi");
-        document.getElementById('logo-container').appendChild(logoImg);
-      } else {
-        console.log(`No se encontró el logo de ${brandName}`);
+  //controlamos que el item que intenta ingresar no se encuentre en el carrito
+  var nombresItemsCarrito = itemsCarrito.getElementsByClassName('carrito-item-titulo');
+  for(var i=0;i < nombresItemsCarrito.length;i++){
+      if(nombresItemsCarrito[i].innerText==titulo){
+          await Swal.fire("Fallido", "El item ya se encuentra en el carrito", "warning");
+          return;
       }
-    } catch (error) {
-      console.log('Error al obtener el logo:', error);
-    }
   }
 
-  document.getElementById('search-form').addEventListener('submit', function (event) {
-    event.preventDefault();
-    const brandName = document.getElementById('brand-name').value;
-    fetchLogo(brandName);
-  });
+  var itemCarritoContenido = `
+      <div class="carrito-item">
+          <img src="${imagenSrc}" width="80px" alt="">
+          <div class="carrito-item-detalles">
+              <span class="carrito-item-titulo total">${titulo}</span>
+              <div class="selector-cantidad">
+                  <i class="fa-solid fa-minus restar-cantidad"></i>
+                  <input type="text" value="1" class="carrito-item-cantidad" disabled>
+                  <i class="fa-solid fa-plus sumar-cantidad"></i>
+              </div>
+              <span class="carrito-item-precio total">${precio}</span>
+          </div>
+          <button class="btn-eliminar">
+              <i class="fa-solid fa-trash"></i>
+          </button>
+      </div>
+  `
+  item.innerHTML = itemCarritoContenido;
+  itemsCarrito.append(item);
+
+  //Agregamos la funcionalidad eliminar al nuevo item
+   item.getElementsByClassName('btn-eliminar')[0].addEventListener('click', eliminarItemCarrito);
+
+  //Agregmos al funcionalidad restar cantidad del nuevo item
+  var botonRestarCantidad = item.getElementsByClassName('restar-cantidad')[0];
+  botonRestarCantidad.addEventListener('click',restarCantidad);
+
+  //Agregamos la funcionalidad sumar cantidad del nuevo item
+  var botonSumarCantidad = item.getElementsByClassName('sumar-cantidad')[0];
+  botonSumarCantidad.addEventListener('click',sumarCantidad);
+
+  //Actualizamos total
+  actualizarTotalCarrito();
+}
+//Aumento en uno la cantidad del elemento seleccionado
+function sumarCantidad(event){
+  var buttonClicked = event.target;
+  var selector = buttonClicked.parentElement;
+  console.log(selector.getElementsByClassName('carrito-item-cantidad')[0].value);
+  var cantidadActual = selector.getElementsByClassName('carrito-item-cantidad')[0].value;
+  cantidadActual++;
+  selector.getElementsByClassName('carrito-item-cantidad')[0].value = cantidadActual;
+  actualizarTotalCarrito();
+}
+//Resto en uno la cantidad del elemento seleccionado
+function restarCantidad(event){
+  var buttonClicked = event.target;
+  var selector = buttonClicked.parentElement;
+  console.log(selector.getElementsByClassName('carrito-item-cantidad')[0].value);
+  var cantidadActual = selector.getElementsByClassName('carrito-item-cantidad')[0].value;
+  cantidadActual--;
+  if(cantidadActual>=1){
+      selector.getElementsByClassName('carrito-item-cantidad')[0].value = cantidadActual;
+      actualizarTotalCarrito();
+  }
+}
+
+//Elimino el item seleccionado del carrito
+function eliminarItemCarrito(event){
+  var buttonClicked = event.target;
+  buttonClicked.parentElement.parentElement.remove();
+  //Actualizamos el total del carrito
+  actualizarTotalCarrito();
+
+  //la siguiente funciòn controla si hay elementos en el carrito
+  //Si no hay elimino el carrito
+  ocultarCarrito();
+}
+//Funciòn que controla si hay elementos en el carrito. Si no hay oculto el carrito.
+function ocultarCarrito(){
+  var carritoItems = document.getElementsByClassName('carrito-items')[0];
+  if(carritoItems.childElementCount==0){
+      var carrito = document.getElementsByClassName('carrito')[0];
+      carrito.style.marginRight = '-100%';
+      carrito.style.opacity = '0';
+      carritoVisible = false;
+  
+      var items =document.getElementsByClassName('contenedor-items')[0];
+      items.style.width = '100%';
+  }
+}
+//Actualizamos el total de Carrito
+function actualizarTotalCarrito(){
+  //seleccionamos el contenedor carrito
+  var carritoContenedor = document.getElementsByClassName('carrito')[0];
+  var carritoItems = carritoContenedor.getElementsByClassName('carrito-item');
+  var total = 0;
+  //recorremos cada elemento del carrito para actualizar el total
+  for(var i=0; i< carritoItems.length;i++){
+      var item = carritoItems[i];
+      var precioElemento = item.getElementsByClassName('carrito-item-precio')[0];
+      //quitamos el simobolo peso y el punto de milesimos.
+      var precio = parseFloat(precioElemento.innerText.replace('$','').replace('.',''));
+      var cantidadItem = item.getElementsByClassName('carrito-item-cantidad')[0];
+      console.log(precio);
+      var cantidad = cantidadItem.value;
+      total = total + (precio * cantidad);
+  }
+  total = Math.round(total * 100)/100;
+
+  document.getElementsByClassName('carrito-precio-total')[0].innerText = '$'+total.toLocaleString("es") + ",00";
+
+}
+document.getElementById('search-form').addEventListener('submit', function (event) {
+  event.preventDefault();
+  const brandName = document.getElementById('brand-name').value;
+  fetchLogo(brandName);
+});
+
+async function fetchLogo(brandName) {
+  try {
+    const response = await fetch(`https://logo.clearbit.com/${brandName.toLowerCase()}.com`);
+    if (response.ok) {
+      const logoUrl = response.url;
+      const logoImg = document.createElement('img');
+      logoImg.src = logoUrl;
+      logoImg.alt = `${brandName} Logo`;
+      logoImg.classList.add("iamgenlogoapi");
+      document.getElementById('logo-container').appendChild(logoImg);
+    } else {
+      console.log(`No se encontró el logo de ${brandName}`);
+    }
+  } catch (error) {
+    console.log('Error al obtener el logo:', error);
+  }
+}
+
+
+var carritoItemsprueba = localStorage.getItem('carritoItems');
+
+
+

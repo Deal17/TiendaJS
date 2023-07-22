@@ -1,25 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./estilo.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;400&family=Titillium+Web:wght@200;400;600&display=swap" rel="stylesheet">
-<!-- <link rel="icon" type="image/png" sizes="16x16"  href="./assets/favicon-16x16.png"> -->
-<meta name="msapplication-TileColor" content="#ffffff">
-<meta name="theme-color" content="#ffffff">
-<link rel="stylesheet" href="./style.css">
-<script src="https://kit.fontawesome.com/eb496ab1a0.js" crossorigin="anonymous"></script>
-
-
-    <title>Cotiza</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;400&family=Titillium+Web:wght@200;400;600&display=swap" rel="stylesheet">
+    <!-- <link rel="icon" type="image/png" sizes="16x16"  href="./assets/favicon-16x16.png"> -->
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://kit.fontawesome.com/eb496ab1a0.js" crossorigin="anonymous"></script>
+    <title>Baam Baam</title>
 </head>
-
 <body>
-
     <header>
 		<nav>
 			<div class="logo-left" id="top">
@@ -40,22 +41,35 @@
 			    </ul>
 		    </div>
 		</nav>
-     </header>
-     <main>
-       <h2 class="title-galeria" >Cotiza tu camiseta Baam baam</h2>
-       <section class="sect2">   
-        <div id="container-items">
-            
+    </header>
+    <h2 class="title-galeria" >Cotiza tu camiseta Baam baam</h2>
+    <section class="contenedor">
+        <!-- Contenedor de elementos -->
+        <div class="contenedor-items">
         </div>
-       </section>
-       <div style="display: flex;">
-        <button class="stylebutton" onclick="carrito()">
-            Carrito de compras
-           </button>
-       </div>
-	   <section>
+        <!-- Carrito de Compras -->
+        <div class="carrito" id="carrito">
+            <div class="header-carrito">
+                <h2>Tu Carrito</h2>
+            </div>
+
+            <div class="carrito-items">
+              
+            </div>
+            <div class="carrito-total">
+                <div class="fila">
+                    <strong class="total">Tu Total</strong>
+                    <span class="carrito-precio-total total">
+                        $120.000,00
+                    </span>
+                </div>
+                <button class="btn-pagar">Pagar <i class="fa-solid fa-bag-shopping"></i> </button>
+            </div>
+        </div>  
+    </section>
+    <section>
 		<h2 class="title-galeria" >Búsqueda de Logos de Camisetas</h2>
-		<h3 class="alinea"> Ejem: Ktm, Ducati, Kawasaki, Honda etc.<h/h3>
+		<h3 class="alinea"> Ejem: Ktm, Ducati, Kawasaki, Honda etc. (Sin espacios)<h/h3>
 		<div class="buscarlogo">
 			<form id="search-form">
 				<input type="text" class="campobuscarlogo" id="brand-name" placeholder="Ingrese el nombre de la marca">
@@ -65,8 +79,7 @@
 		</div>
 		<div id="logo-container"></div>
 	   </section>
-     </main>
-     <footer class="pie-pagina">
+       <footer class="pie-pagina">
 		<div class="grupo-1">
 			<div class="box">
 				<figure>
@@ -97,6 +110,6 @@
 
    </footer>
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-   <script src="./main.js"></script>
+   <script src="main.js" async></script>
 </body>
 </html>
